@@ -43,7 +43,7 @@ const Dashboard = () => {
             </h1>
 
             {/* Chat Input */}
-            <ChatInput />
+            <ChatInput className="w-full max-w-[638px]" />
           </div>
 
           {/* Bottom tabs */}
