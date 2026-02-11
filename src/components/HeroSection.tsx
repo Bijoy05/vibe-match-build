@@ -14,7 +14,7 @@ const HeroSection = () => {
         quantity={180}
         staticity={40}
         ease={40}
-        size={theme === "dark" ? 0.5 : 0.6}
+        size={theme === "dark" ? 0.9 : 1.0}
         color={theme === "dark" ? "#ffffff" : "#000000"}
         vx={0.08}
         vy={0.04}

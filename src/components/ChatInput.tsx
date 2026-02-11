@@ -1,9 +1,16 @@
 import { Plus, Mic, ArrowUp } from "lucide-react";
+import { LiquidGlass } from "@liquidglass/react";
 
 const ChatInput = () => {
   return (
     <div className="w-full max-w-2xl">
-      <div className="rounded-2xl border border-border/40 bg-card/80 shadow-2xl backdrop-blur-xl dark:bg-[hsl(222,30%,8%)]/90">
+      <LiquidGlass
+        borderRadius={20}
+        blur={0.5}
+        contrast={1.2}
+        brightness={1.1}
+        saturation={1.2}
+      >
         {/* Text area */}
         <div className="px-4 pt-4 pb-2">
           <textarea
@@ -14,7 +21,7 @@ const ChatInput = () => {
         </div>
 
         {/* Toolbar */}
-        <div className="flex items-center justify-between border-t border-border/30 px-3 py-2">
+        <div className="flex items-center justify-between px-3 py-2">
           <div className="flex items-center gap-2">
             <button className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">
               <Plus className="h-4 w-4" />
@@ -32,7 +39,7 @@ const ChatInput = () => {
             </button>
           </div>
         </div>
-      </div>
+      </LiquidGlass>
     </div>
   );
 };
