@@ -3,11 +3,11 @@ import { Plus, Mic, ArrowUp } from "lucide-react";
 const ChatInput = () => {
   return (
     <div className="w-full max-w-2xl">
-      <div className="rounded-2xl border border-border/40 bg-card/80 shadow-2xl backdrop-blur-xl dark:bg-[hsl(222,30%,8%)]/90">
+      <div className="rounded-2xl border border-border/40 bg-card/80 shadow-2xl backdrop-blur-xl dark:bg-[hsl(0,0%,16%)]/90">
         {/* Text area */}
         <div className="px-4 pt-4 pb-2">
           <textarea
-            placeholder="Ask Lovable to create a prototy..."
+            placeholder="Ask Von to create"
             rows={2}
             className="w-full resize-none bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
           />

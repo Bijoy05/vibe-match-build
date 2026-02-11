@@ -1,4 +1,4 @@
-import { ChevronDown, Heart, Moon, Sun, Menu, X } from "lucide-react";
+import { ChevronDown, Zap, Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -12,8 +12,8 @@ const Navbar = () => {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <Heart className="h-6 w-6 fill-current text-foreground" />
-          <span className="text-lg font-semibold text-foreground">Lovable</span>
+          <Zap className="h-6 w-6 fill-current text-foreground" />
+          <span className="text-lg font-semibold text-foreground">Von</span>
         </div>
 
         {/* Desktop Nav */}
@@ -44,12 +44,12 @@ const Navbar = () => {
           >
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
-          <button className="hidden text-sm text-muted-foreground transition-colors hover:text-foreground md:block">
+          <a href="/login" className="hidden text-sm text-muted-foreground transition-colors hover:text-foreground md:block">
             Log in
-          </button>
-          <button className="hidden rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent md:block">
+          </a>
+          <a href="/login" className="hidden rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent md:block">
             Get started
-          </button>
+          </a>
           <button
             className="rounded-md p-2 text-muted-foreground md:hidden"
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -71,10 +71,10 @@ const Navbar = () => {
             </button>
           ))}
           <div className="mt-4 flex flex-col gap-2">
-            <button className="text-sm text-muted-foreground">Log in</button>
-            <button className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground">
+            <a href="/login" className="text-sm text-muted-foreground">Log in</a>
+            <a href="/login" className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground text-center">
               Get started
-            </button>
+            </a>
           </div>
         </div>
       )}
