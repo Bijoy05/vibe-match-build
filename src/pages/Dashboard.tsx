@@ -8,14 +8,14 @@ const Dashboard = () => {
   const { theme } = useTheme();
 
   return (
-    <div className="flex h-screen w-full overflow-hidden">
+    <div className="flex h-screen w-full overflow-hidden dark:bg-[hsl(0,0%,16%)]">
       {/* Sidebar */}
       <DashboardSidebar />
 
       {/* Main content */}
       <div className="flex flex-1 flex-col">
         {/* Main chat area with rounded section */}
-        <div className="relative flex flex-1 flex-col items-center justify-center overflow-hidden rounded-2xl m-2 dark:bg-[hsl(0,0%,16%)]">
+        <div className="relative flex flex-1 flex-col items-center justify-center overflow-hidden rounded-2xl m-2 dark:bg-[hsl(0,0%,0%)]">
           <Particles
             className="absolute inset-0"
             quantity={140}

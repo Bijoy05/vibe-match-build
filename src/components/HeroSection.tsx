@@ -7,7 +7,7 @@ const HeroSection = () => {
   const { theme } = useTheme();
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pt-16">
+    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pt-16 dark:bg-[hsl(0,0%,0%)]">
       <Particles
         className="absolute inset-0"
         quantity={180}

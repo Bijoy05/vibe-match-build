@@ -19,7 +19,7 @@ const DashboardSidebar = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="flex h-full w-56 flex-col border-r border-border/40 bg-card dark:bg-background">
+    <div className="flex h-full w-56 flex-col border-r border-border/40 bg-card dark:bg-[hsl(0,0%,16%)]">
       {/* Top section */}
       <div className="flex items-center justify-between px-4 pt-4 pb-2">
         <Zap className="h-5 w-5 fill-current text-foreground" />
