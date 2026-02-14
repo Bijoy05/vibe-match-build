@@ -39,7 +39,7 @@ const HeroSection = () => {
           Create apps and websites by chatting with AI
         </p>
 
-        <ChatInput />
+        <ChatInput className="w-[638px]" />
       </div>
     </section>
   );
