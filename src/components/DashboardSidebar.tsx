@@ -1,3 +1,4 @@
+import { useState, useRef } from "react";
 import {
   Home,
   Search,
@@ -10,15 +11,32 @@ import {
   Zap,
   ChevronDown,
   PanelLeft,
+  User,
+  Bell,
   Palette,
   Code,
+  ArrowRight,
 } from "lucide-react";
 import { useMode } from "./ModeProvider";
+import ProfileDropdown from "./ProfileDropdown";
+import InboxDropdown from "./InboxDropdown";
 
-const DashboardSidebar = () => {
+type DashboardView = "home" | "all-projects" | "starred";
+
+interface DashboardSidebarProps {
+  currentView: DashboardView;
+  onNavigate: (view: DashboardView) => void;
+}
+
+const DashboardSidebar = ({ currentView, onNavigate }: DashboardSidebarProps) => {
   const { mode, toggleMode } = useMode();
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isInboxOpen, setIsInboxOpen] = useState(false);
+  const userButtonRef = useRef<HTMLButtonElement>(null);
+  const inboxButtonRef = useRef<HTMLButtonElement>(null);
 
   const isDesigner = mode === "designer";
+  const unreadCount = 2; // Mock unread count
 
   return (
     <div className="flex h-full w-56 flex-col border-r border-white/10 bg-black/40 backdrop-blur-xl">
@@ -31,7 +49,7 @@ const DashboardSidebar = () => {
       </div>
 
       {/* User */}
-      <div className="mx-3 mb-4 flex items-center gap-2 rounded-lg px-2 py-2 hover:bg-white/10">
+      <div className="mx-3 mb-4 flex items-center gap-2 rounded-lg px-2 py-2 hover:bg-white/10 cursor-pointer">
         <div className={`flex h-6 w-6 items-center justify-center rounded-md text-xs font-bold text-white ${
           isDesigner 
             ? "bg-gradient-to-br from-pink-500 to-orange-500" 
@@ -47,23 +65,25 @@ const DashboardSidebar = () => {
 
       {/* Nav items */}
       <nav className="flex flex-col gap-0.5 px-3">
-        {[
-          { icon: Home, label: "Home", active: true },
-          { icon: Search, label: "Search" },
-          { icon: BookOpen, label: "Resources" },
-        ].map(({ icon: Icon, label, active }) => (
-          <button
-            key={label}
-            className={`flex items-center gap-3 rounded-lg px-2 py-2 text-sm transition-colors ${
-              active
-                ? "bg-white/20 text-white"
-                : "text-white/60 hover:bg-white/10 hover:text-white"
-            }`}
-          >
-            <Icon className="h-4 w-4" />
-            {label}
-          </button>
-        ))}
+        <button
+          onClick={() => onNavigate("home")}
+          className={`flex items-center gap-3 rounded-lg px-2 py-2 text-sm transition-colors ${
+            currentView === "home"
+              ? "bg-white/20 text-white"
+              : "text-white/60 hover:bg-white/10 hover:text-white"
+          }`}
+        >
+          <Home className="h-4 w-4" />
+          Home
+        </button>
+        <button className="flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-white/60 transition-colors hover:bg-white/10 hover:text-white">
+          <Search className="h-4 w-4" />
+          Search
+        </button>
+        <button className="flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-white/60 transition-colors hover:bg-white/10 hover:text-white">
+          <BookOpen className="h-4 w-4" />
+          Resources
+        </button>
       </nav>
 
       {/* Projects */}
@@ -73,19 +93,32 @@ const DashboardSidebar = () => {
         </p>
       </div>
       <nav className="flex flex-col gap-0.5 px-3">
-        {[
-          { icon: LayoutGrid, label: "All projects" },
-          { icon: Star, label: "Starred" },
-          { icon: Users, label: "Shared with me" },
-        ].map(({ icon: Icon, label }) => (
-          <button
-            key={label}
-            className="flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-white/60 transition-colors hover:bg-white/10 hover:text-white"
-          >
-            <Icon className="h-4 w-4" />
-            {label}
-          </button>
-        ))}
+        <button
+          onClick={() => onNavigate("all-projects")}
+          className={`flex items-center gap-3 rounded-lg px-2 py-2 text-sm transition-colors ${
+            currentView === "all-projects"
+              ? "bg-white/20 text-white"
+              : "text-white/60 hover:bg-white/10 hover:text-white"
+          }`}
+        >
+          <LayoutGrid className="h-4 w-4" />
+          All projects
+        </button>
+        <button
+          onClick={() => onNavigate("starred")}
+          className={`flex items-center gap-3 rounded-lg px-2 py-2 text-sm transition-colors ${
+            currentView === "starred"
+              ? "bg-white/20 text-white"
+              : "text-white/60 hover:bg-white/10 hover:text-white"
+          }`}
+        >
+          <Star className="h-4 w-4" />
+          Starred
+        </button>
+        <button className="flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-white/60 transition-colors hover:bg-white/10 hover:text-white">
+          <Users className="h-4 w-4" />
+          Shared with me
+        </button>
       </nav>
 
       {/* Recents */}
@@ -134,14 +167,72 @@ const DashboardSidebar = () => {
             </div>
           </div>
         </button>
+
         {/* Mode toggle button */}
         <button
           onClick={toggleMode}
-          className="flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+          className={`flex items-center gap-2 rounded-lg px-2 py-2 text-sm transition-colors hover:bg-white/10 ${
+            isDesigner 
+              ? "text-pink-400 hover:text-pink-300" 
+              : "text-purple-400 hover:text-purple-300"
+          }`}
         >
           {isDesigner ? <Code className="h-4 w-4" /> : <Palette className="h-4 w-4" />}
-          {isDesigner ? "Developer mode" : "Designer mode"}
+          <span className="flex-1 text-left font-medium">
+            {isDesigner ? "Von for Developers" : "Von for Designers"}
+          </span>
+          <ArrowRight className="h-3.5 w-3.5" />
         </button>
+        
+        {/* User and Inbox icons - far left and far right */}
+        <div className="flex items-center justify-between pt-2 mt-2 border-t border-white/10">
+          {/* User profile button - far left */}
+          <div className="relative">
+            <button
+              ref={userButtonRef}
+              onClick={() => {
+                setIsProfileOpen(!isProfileOpen);
+                setIsInboxOpen(false);
+              }}
+              className="flex items-center justify-center w-10 h-10 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+            >
+              <User className="h-5 w-5" />
+            </button>
+            <ProfileDropdown 
+              isOpen={isProfileOpen} 
+              onClose={() => setIsProfileOpen(false)}
+              anchorRef={userButtonRef}
+            />
+          </div>
+
+          {/* Inbox button - far right */}
+          <div className="relative">
+            <button
+              ref={inboxButtonRef}
+              onClick={() => {
+                setIsInboxOpen(!isInboxOpen);
+                setIsProfileOpen(false);
+              }}
+              className="flex items-center justify-center w-10 h-10 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors relative"
+            >
+              <Bell className="h-5 w-5" />
+              {unreadCount > 0 && (
+                <span className={`absolute -top-0.5 -right-0.5 h-4 w-4 rounded-full text-[10px] font-bold flex items-center justify-center ${
+                  isDesigner 
+                    ? "bg-pink-500 text-white" 
+                    : "bg-purple-500 text-white"
+                }`}>
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+            <InboxDropdown 
+              isOpen={isInboxOpen} 
+              onClose={() => setIsInboxOpen(false)}
+              anchorRef={inboxButtonRef}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

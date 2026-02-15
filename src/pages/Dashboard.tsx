@@ -1,23 +1,28 @@
 import { LiquidBackground } from "@/components/LiquidBackground";
-import { LiquidGlass } from "@/components/ui/liquid-glass";
 import { useMode } from "@/components/ModeProvider";
 import ChatInput from "@/components/ChatInput";
 import DashboardSidebar from "@/components/DashboardSidebar";
 import LibrarySection from "@/components/LibrarySection";
-import { ArrowRight } from "lucide-react";
+import ProjectsView from "@/components/ProjectsView";
 import { motion } from "motion/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+
+type DashboardView = "home" | "all-projects" | "starred";
 
 const Dashboard = () => {
-  const { mode, toggleMode } = useMode();
+  const { mode } = useMode();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [currentView, setCurrentView] = useState<DashboardView>("home");
 
   const isDesigner = mode === "designer";
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-black">
       {/* Sidebar */}
-      <DashboardSidebar />
+      <DashboardSidebar 
+        currentView={currentView}
+        onNavigate={setCurrentView}
+      />
 
       {/* Main content */}
       <div className="flex flex-1 flex-col">
@@ -33,51 +38,53 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Hero section - first viewport */}
-          <section className="relative z-10 flex min-h-full flex-col items-center justify-center px-6 py-20">
-            <div className="flex max-w-3xl flex-col items-center text-center">
-              {/* Mode toggle button with liquid glass */}
-              <LiquidGlass 
-                intensity="high"
-                className="mb-6 cursor-pointer"
-                onClick={toggleMode}
-              >
-                <div className="flex items-center gap-2 px-4 py-2 text-sm text-white/90 transition-all hover:scale-105">
-                  <span className="rounded-full bg-white/20 px-2 py-0.5 text-xs font-medium">
-                    Switch
-                  </span>
-                  <span className="font-medium">
-                    {isDesigner ? "Von for Developers" : "Von for Designers"}
-                  </span>
-                  <ArrowRight className="h-3.5 w-3.5" />
+          {/* Home View - Chat area */}
+          {currentView === "home" && (
+            <>
+              {/* Hero section - first viewport */}
+              <section className="relative z-10 flex min-h-full flex-col items-center justify-center px-6 py-20">
+                <div className="flex max-w-3xl flex-col items-center text-center">
+                  {/* Heading */}
+                  <h1 className="mb-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+                    What's on your mind?
+                  </h1>
+
+                  {/* Subtitle - same for both modes */}
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="mb-8 max-w-lg text-lg text-white/70"
+                  >
+                    Use Von to ship your next idea faster!
+                  </motion.p>
+
+                  {/* Chat Input - expands downward */}
+                  <div className="w-[638px]">
+                    <ChatInput className="w-full" />
+                  </div>
                 </div>
-              </LiquidGlass>
+              </section>
 
-              {/* Heading */}
-              <h1 className="mb-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-                What's on your mind?
-              </h1>
+              {/* Library Section - Visible on scroll */}
+              <section className="relative z-10 pb-12 pt-8">
+                <LibrarySection showRecentProjects={true} />
+              </section>
+            </>
+          )}
 
-              {/* Subtitle - same for both modes */}
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="mb-8 max-w-lg text-lg text-white/70"
-              >
-                Use Von to ship your next idea faster!
-              </motion.p>
+          {/* All Projects View */}
+          {currentView === "all-projects" && (
+            <section className="relative z-10 min-h-full flex items-start justify-center pt-8">
+              <ProjectsView type="all" />
+            </section>
+          )}
 
-              {/* Chat Input - expands downward */}
-              <div className="w-[638px]">
-                <ChatInput className="w-full" />
-              </div>
-            </div>
-          </section>
-
-          {/* Library Section - Visible on scroll */}
-          <section className="relative z-10 pb-12 pt-8">
-            <LibrarySection showRecentProjects={true} />
-          </section>
+          {/* Starred Projects View */}
+          {currentView === "starred" && (
+            <section className="relative z-10 min-h-full flex items-start justify-center pt-8">
+              <ProjectsView type="starred" />
+            </section>
+          )}
         </div>
       </div>
     </div>
