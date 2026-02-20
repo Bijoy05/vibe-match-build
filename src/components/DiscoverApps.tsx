@@ -1,5 +1,4 @@
 import { ArrowRight } from "lucide-react";
-import { useMode } from "./ModeProvider";
 
 const apps = [
   {
@@ -25,26 +24,17 @@ const apps = [
 ];
 
 const DiscoverApps = () => {
-  const { mode } = useMode();
-  const isDesigner = mode === "designer";
-
   return (
     <section className="mx-auto max-w-7xl px-6 pb-20">
       {/* Header */}
       <div className="mb-8 flex items-end justify-between">
         <div>
-          <h2 className={`text-2xl ${isDesigner ? "font-medium text-black" : "font-bold text-foreground"}`}>
-            {isDesigner ? <><span className="italic">Discover</span> apps</> : "Discover apps"}
-          </h2>
-          <p className={`mt-1 text-sm ${isDesigner ? "text-black/60" : "text-muted-foreground"}`}>
+          <h2 className="text-2xl font-bold text-foreground">Discover apps</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
             Explore what others are building
           </p>
         </div>
-        <button className={`flex items-center gap-1 text-sm transition-colors ${
-          isDesigner 
-            ? "text-black/60 hover:text-black" 
-            : "text-muted-foreground hover:text-foreground"
-        }`}>
+        <button className="flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground">
           View all <ArrowRight className="h-4 w-4" />
         </button>
       </div>
@@ -57,19 +47,13 @@ const DiscoverApps = () => {
               className={`mb-3 aspect-[4/3] overflow-hidden rounded-xl bg-gradient-to-br ${app.gradient} transition-transform duration-300 group-hover:scale-[1.02]`}
             >
               <div className="flex h-full items-center justify-center p-4">
-                <span className={`text-center text-sm font-bold ${
-                  isDesigner ? "text-black/40" : "text-foreground/50"
-                }`}>
+                <span className="text-center text-sm font-bold text-foreground/50">
                   {app.title}
                 </span>
               </div>
             </div>
-            <h3 className={`text-sm font-medium ${isDesigner ? "text-black" : "text-foreground"}`}>
-              {app.title}
-            </h3>
-            <p className={`text-xs ${isDesigner ? "text-black/60" : "text-muted-foreground"}`}>
-              {app.subtitle}
-            </p>
+            <h3 className="text-sm font-medium text-foreground">{app.title}</h3>
+            <p className="text-xs text-muted-foreground">{app.subtitle}</p>
           </div>
         ))}
       </div>

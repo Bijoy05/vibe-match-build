@@ -1,5 +1,4 @@
 import { ArrowRight } from "lucide-react";
-import { useMode } from "./ModeProvider";
 
 const templates = [
   {
@@ -45,26 +44,17 @@ const templates = [
 ];
 
 const DiscoverTemplates = () => {
-  const { mode } = useMode();
-  const isDesigner = mode === "designer";
-
   return (
     <section className="mx-auto max-w-7xl px-6 py-20">
       {/* Header */}
       <div className="mb-8 flex items-end justify-between">
         <div>
-          <h2 className={`text-2xl ${isDesigner ? "font-medium text-black" : "font-bold text-foreground"}`}>
-            {isDesigner ? <><span className="italic">Discover</span> templates</> : "Discover templates"}
-          </h2>
-          <p className={`mt-1 text-sm ${isDesigner ? "text-black/60" : "text-muted-foreground"}`}>
+          <h2 className="text-2xl font-bold text-foreground">Discover templates</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
             Start your next project with a template
           </p>
         </div>
-        <button className={`flex items-center gap-1 text-sm transition-colors ${
-          isDesigner 
-            ? "text-black/60 hover:text-black" 
-            : "text-muted-foreground hover:text-foreground"
-        }`}>
+        <button className="flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground">
           View all <ArrowRight className="h-4 w-4" />
         </button>
       </div>
@@ -80,19 +70,13 @@ const DiscoverTemplates = () => {
               className={`mb-3 aspect-[4/3] overflow-hidden rounded-xl bg-gradient-to-br ${template.gradient} transition-transform duration-300 group-hover:scale-[1.02]`}
             >
               <div className="flex h-full items-center justify-center p-4">
-                <span className={`text-center text-xs font-medium uppercase tracking-widest ${
-                  isDesigner ? "text-black/30" : "text-foreground/40"
-                }`}>
+                <span className="text-center text-xs font-medium uppercase tracking-widest text-foreground/40">
                   {template.title.split(" ").slice(0, 2).join(" ")}
                 </span>
               </div>
             </div>
-            <h3 className={`text-sm font-medium ${isDesigner ? "text-black" : "text-foreground"}`}>
-              {template.title}
-            </h3>
-            <p className={`text-xs ${isDesigner ? "text-black/60" : "text-muted-foreground"}`}>
-              {template.subtitle}
-            </p>
+            <h3 className="text-sm font-medium text-foreground">{template.title}</h3>
+            <p className="text-xs text-muted-foreground">{template.subtitle}</p>
           </div>
         ))}
       </div>
